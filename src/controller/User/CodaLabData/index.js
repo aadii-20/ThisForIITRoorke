@@ -35,21 +35,33 @@ const closeClient = async () => {
 export const getPublication = async (req, res) => {
   try {
     await connectClient();
+    
     const database = User.db("Paper");
-    const Journals = database.collection("Journals");
-    const arrayOfJournals = await Journals.find().toArray();
-    const Conference  = database.collection("Conference");
-    const arrayOfConference = await Conference.find().toArray();
-    const Books  = database.collection("Books");
-    const arrayOfBooks =  await Books.find().toArray();
 
-    // Use flatted to stringify the database object without circular reference issues
-    res.status(200).send({ Journals: arrayOfJournals, Conference:arrayOfConference,Books:arrayOfBooks});
-  } catch (error) {
+    // Define collections and their corresponding names
+    const collections = [
+        { name: "Journals", variableName: "arrayOfJournals" },
+        { name: "Conference", variableName: "arrayOfConference" },
+        { name: "Books", variableName: "arrayOfBooks" },
+        { name: "Patents1", variableName: "arrayOfPatents1" },
+        { name: "Patents2", variableName: "arrayOfPatents2" },
+        { name: "Workshops", variableName: "arrayOfWorkshops" }
+    ];
+
+    // Fetch data for each collection and sort by year
+    const results = {};
+    for (const collection of collections) {
+        const col = database.collection(collection.name);
+        results[collection.variableName] = await col.find().sort({ year: -1 }).toArray();
+    }
+
+    // Respond with all arrays in a single object
+    res.status(200).send(results);
+} catch (error) {
     res.status(500).send({ message: error.message });
-  } finally {
+} finally {
     await closeClient();
-  }
+}
 };
 
 
@@ -64,6 +76,7 @@ export const getAllStudents = async(req,res)=>{
      await closeClient();
     }
 }
+
 
 // Export app for further use
 
