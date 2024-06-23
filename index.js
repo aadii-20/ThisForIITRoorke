@@ -4,6 +4,7 @@ import connect from './src/config/db/index.js';
 import Admin from './src/routes/Admin.Routes.js'
 import SubAdmin from './src/routes/SubAdminRoutes.Routes.js'
 import User from  '../backend/src/routes/User.Routes.js'
+
 import cors from 'cors';
 import mongoose from 'mongoose';
 
@@ -22,12 +23,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //This is for Admin Private Routes
- app.use('/api/Admin/private',Admin)
+app.use('/api/Admin/private',Admin)
 //This is for SubAdmin Private Routes
 app.use('/api/SubAdmin/private',SubAdmin)
 //This is for User Of codaLabData
 app.use('/api/CodaLabProfile/public',User)
-  
+//This is for SudipSirLab
+app.use('/api/SudipSirProfile/public',User)  
 
 //Hello world Route For check
 

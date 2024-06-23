@@ -1,6 +1,5 @@
 import bodyParser from 'body-parser';
 import express from 'express';
-import createPublication from '../controller/Admin/actions/Admin/index.js';
 import subAdminAutheatioaction from '../middleware/authFromTokenForSAdmin/index.js'
 const router = express.Router();
 
@@ -10,7 +9,8 @@ router.use(bodyParser.urlencoded({extended:false}));
 router.use(bodyParser.json());
 
 
-router.get('/createPublication',createPublication);
+// router.get('/createPublication',createPublication);
+
 
 
 

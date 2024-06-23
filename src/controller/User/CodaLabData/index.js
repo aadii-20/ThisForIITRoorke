@@ -52,7 +52,7 @@ export const getPublication = async (req, res) => {
     const results = {};
     for (const collection of collections) {
         const col = database.collection(collection.name);
-        results[collection.variableName] = await col.find().sort({ year: -1 }).toArray();
+        results[collection.variableName] = await col.find({year:{$gt:2015}}).sort({ year: -1 }).toArray();
     }
 
     // Respond with all arrays in a single object
